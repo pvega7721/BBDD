@@ -5,11 +5,11 @@ select * from emp;
 --3. Devuelve ename, job, sal y comm de los empleando usando los siguientes alias de columnas: nombre, puesto, salario y comisión.
 select ENAME "nombre", JOB "puesto", SAL "salario", COMM "comisión" from emp;
 --4. Calcula cuántas semanas completas (de lunes a domingo) ha trabajado cada empleado, y devuelve dicho valor y el nombre del empleado. El número de
-select ename "Nombre", floor((sysdate-hiredate)/4) "NºSemanas trabajadas"from emp;
+select ename "Nombre", floor((sysdate-hiredate)/7) "NºSemanas trabajadas"from emp;
 --5. Calcular el sueldo neto de cada empleado, y la retencion iRPF mensual, sabiendo que la retención es del 19% para el sueldo y de un 10% de la comisión, (redondear a 2 decimales). Si el empleado no tiene comisión, se debe mostrar el valor 0.
-select ename "Nombre", round((sal-(sal*0.19)- nvl((comm*0.1),0)),2) "Salario neto", round(((sal*1.19)+ nvl((comm*0.1),0)),2) "Retención IRPF mensual" from emp;
+select ename "Nombre", round((sal-(sal*0.19)- nvl((comm*0.1),0)),2) "Salario neto", round(((sal*0.19)+ nvl((comm*0.1),0)),2) "Retención IRPF mensual" from emp;
 --6. Hacer un listado de empleados (nombre y salario) con sueldo superior a 1000.
-select ENAME "nombre", SAL "salario" from emp where SAL <1000;
+select ENAME "nombre", SAL "salario" from emp where SAL >1000;
 --7. Hacer un listado de empleados (nombre, puesto, sueldo, comision) que tengan puesto igual a CLERK.
 select ENAME "nombre", JOB "puesto", SAL "sueldo", COMM "comision" from emp where job = 'CLERK';
 --8. Hacer un listado de empleados (nombre, puesto, sueldo, comision) que tengan puesto distinto a CLERK.
@@ -41,11 +41,11 @@ select ename "Nombre", sal "Sueldo" from emp where sal = (5000/2 +500) or sal = 
 --21. Seleccionar nombre, sueldo y sueldo formateado (ej.: 1,000.00) de todos los empleados. Se puede usar las máscaras de to_number en to_char.
 select ename "Nombre", sal "Sueldo", to_char(sal, '999,999.00') "Sueldo formateado" from emp; 
 --22. Seleccionar nombre, sueldo y sueldo formateado con el simbolo 'Dólar' (ej.: $1,000.00) de todos los empleados. Se puede usar las máscaras de to_number en to_char.
-
+select ename "Nombre", sal "Sueldo", to_char(sal, '$999,999.00') "Sueldo formateado" from emp;
 --23. Seleccionar nombre, sueldo y sueldo formateado con el simbolo 'Euro' (ej.: 1,000.00€ de todos los empleados. Se puede usar las máscaras de to_number en to_char.
-
+select ename "Nombre", sal "Sueldo", to_char(sal, '999,999.00L') "Sueldo formateado" from emp;
 --24. Seleccionar la fecha del sistema (día, mes, año, horas (24):minutos:segundos).
-
+select to_char(sysdate, 'dd''month''yyyy''hh24:mi:ss') from dual;
 --25. Seleccionar la fecha del sistema (nombre del día, día, nombre del mes, año, horas (24):minutos:segundos). No debe haber espacios sobrantes en el nombre del día o del mes.
 select replace(to_char(sysdate,'DAY'),' '), 
     to_char(sysdate,'dd'),
@@ -54,11 +54,12 @@ select replace(to_char(sysdate,'DAY'),' '),
     to_char(sysdate,'hh24:mi:ss') 
         from dual;
 --26. Seleccionar la fecha del día 1 de enero de 2005, medíante una tira de caracteres y su máscara de formato (ej.: 01012021 sería el 1 de enero de 2021).
-
+select to_char(to_date('01012005', 'ddmmyyyy'), 'DD "de" month "de" yyyy') from dual;
 --27. Calcular el número de días vividos hasta hoy por una persona nacida el día 3 de julio de 1970.
 select floor(sysdate-to_date('03/07/1970')) from dual;
 --28. Calcular el número de segundos transcurridos desde la última medianoche (máscara 'sssss' en to_char).
-
+select floor((sysdate -trunc(sysdate-1))*24*3600) from dual;
 --29. Calcular el número horas completas transcurridas desde la última medianoche.
-
+select floor(sysdate-to_date(sysdate-1*24)) from dual;
 --30. Calcular el número de meses transcurridos entre la fecha de contratación de cada empleado y hoy.
+select floor(months_between(sysdate, hiredate)) from emp;
