@@ -358,3 +358,49 @@ select ename from emp where deptno = (select deptno from emp where ename = 'SMIT
 select count(*) from emp where sal < (select sal from emp where ename = 'MILLER');
 
 select ename,round(months_between(to_date('31/12/' || to_char(hiredate, 'yyyy')),hiredate)*sal,2) "Cuantía a cobrar el primer año" from emp;
+--05/02/2024
+--1. Mostrar todos los datos de los empleados de aquellos que trabajan en el mismo de partamento que SCOTT,
+--ganen más que lo que gana SMITH y tenga el mismo oficio que MILLER.
+select * from emp;
+select * from dept;
+select * from emp where deptno =(select deptno from emp where ename='SCOTT') and
+    sal > (select sal from emp where ename='SMITH') and
+    job = (select job from emp where ename='MILLER');
+--2. Mostrar el nombre y el salario de los empleados que trabajan en el mismo departamento que FORD y tengan
+-- su mismo sueldo. Ordenar primero por el nombre asecendentemente y luego por el salario descendientemente.
+select ename, sal from emp where deptno = (select deptno from emp where ename = 'FORD') and
+    sal = (select sal from emp where ename = 'FORD') order by ename, sal desc;
+--3 Obtén el nombre del futbolista más mayor que jugó en el equipo de casa el 01/01/20
+-- y el nombre de su equipo.
+select futbolistas.nombre,equipos.nombre 
+    from partidos join equipos on equipos.id = partidos.id_equipo_casa join futbolistas on futbolistas.id_equipo = equipos.id
+    where fecha = '01/01/20' and fecha_nacimiento = (select min(fecha_nacimiento) from partidos join equipos on equipos.id = partidos.id_equipo_casa join futbolistas on futbolistas.id_equipo = equipos.id
+    where fecha = '01/01/20');
+--4
+select futbolistas.apellidos,equipos.nombre 
+    from partidos join equipos on equipos.id = partidos.id_equipo_fuera 
+        join futbolistas on futbolistas.id_equipo = equipos.id
+        where fecha = '08/01/20' and fecha_nacimiento = (select max(fecha_nacimiento)
+            from partidos 
+            join equipos on equipos.id = partidos.id_equipo_fuera 
+            join futbolistas on futbolistas.id_equipo = equipos.id
+            where fecha = '08/01/20');
+--5 Devuelve el equipo y resultado del partido jugado el 15/01/2020 con este formato "EQUIPO A 00-00
+--EQUIPO B" en una única columna.
+select ecasa.nombre || ' ' || resultado || ' ' || efuera.nombre from partidos
+    join equipos ecasa on id_equipo_casa = ecasa.id
+    join equipos efuera on id_equipo_fuera = efuera.id
+    where fecha = '15/01/2020';
+    
+--6. En qué ciudad trabaja el empleado que más cobra de la empresa?
+select loc from emp join dept on dept.deptno = emp.deptno where sal = (select max(sal) from emp);
+--7. ¿Cómo se llama el departamento del empleado que tiene menor salario?
+select dname from emp join dept on dept.deptno = emp.deptno where sal = (select min(sal) from emp);
+--8.¿Cómo se llama el futbolista de más altura que jugó el día 22/01/20?
+select * from partidos;
+select altura from futbolistas where altura = (select max(altura) from futbolistas) and fecha = '22/01/20';
+--9. Se quiere saber el nombre del departamento y el nombre del empleado que tiene comisión y esta 
+-- es mayor de 500
+
+
+
