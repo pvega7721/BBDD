@@ -1,9 +1,21 @@
 --31. Calcular el último dia del mes (fecha) del mes actual.
+select last_day(sysdate) from dual;
 --32. Calcular el último dia del mes (fecha) del mes actual, con horas, minutos y segundos.
+select systimestamp from dual;
 --33. Calcular en qué MES (cifras) se ha contratado cada empleado.
+select extract(month from hiredate) from emp;
 --34. Calcular cuanto debería haber cobrado cada empleado en su primer año de trabajo (desde la fecha de contrato hasta el 31 de diciembre de ese año).
+
+
+
 --35. Cuantos oficios distintos hay en la tabla de empleados.
+select distinct job from emp;
+select count(distinct job) from emp;
 --36. Calcular el IRPF de cada empleado, teniendo en cuenta que para los 'CLERK' se les retiene un 15%, y a los 'ANALYST" un 20%. Al resto se les retiene un 19%.
+select * from emp;
+select (sal - (sal*0.15)) "Descuento IRPF" from emp where job like 'CLERK' union
+select (sal - (sal*0.2)) "Descuento IRPF" from emp where job like 'ANALYST' union 
+select (sal - (sal*0.19)) "Descuento IRPF" from emp where job not like 'CLERK' or  job not like'ANALYST';
 --37. Efectuar una propuesta de aumento salarial: Para los empleados del Dept. 10 un 5%, Dept. 20 un 7%, Dept 30 un 8% y al resto un 3% del salario.
 --38. Listar los nombres de los empleados, identificando como 'Vendedor' si cobra comisión, y 'No vendedor' si no la cobra.
 --39. Calcular cuánto se paga mensualmente a todos los empleados.
