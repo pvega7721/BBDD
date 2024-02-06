@@ -84,3 +84,6 @@ select to_number('-$1000.45', '$9999.99') from dual;
 select to_char(sysdate,'DD/MM/YYYY'), to_char(sysdate,'DD/MM/YY'), to_char(sysdate,'DD-MON-YYYY'), to_char(sysdate,'DD " de "MONTH"de" YYYY')  from dual;
 select to_number(substr(id,2,length(id)-1),'99999') from futbolistas;
 select extract(year from fecha_nacimiento) from futbolistas order by fecha_nacimiento;
+
+--Ejercicio17
+select decode(presupuesto,1000000,'1000K',2000000,'2000K',3000000,'3000K') from equipos;
