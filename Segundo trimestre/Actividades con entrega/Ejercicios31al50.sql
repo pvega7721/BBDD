@@ -27,12 +27,19 @@ select count(ename) "Número de empleados" from emp;
 --41. Calcular el sueldo medio de todos los empleados.
 select round(avg(sal),2) "Salario medio" from emp;
 --42. Calcular la comisión media de todos los empleados (teniendo en cuenta aquellos que no tienen comisión).
-select round(avg(comm),2) "Comisión media" from emp;
+select round(avg(nvl(comm,0)),2) "Comisión media" from emp;
 --43. Calcular la comisión media de los empleados que sí tienen comisión.
+select avg(comm) "Comisión media" from emp where comm is not null;
 --44. Calcular la suma de los sueldos de los empleados del Departamento 20.
+select sum(sal) from emp where deptno = 20;
 --45. Calcular el sueldo medio de los empleados que pertenezcan al Dept 10 o 30.
+select round(avg(sal),2) from emp where deptno = 10 or deptno = 30;
 --46. Calcular la suma de sueldos que se pagan en cada uno de los departamentos 10 y 30 (por separado).
+select sum(sal) from emp where deptno = 10 union
+select sum(sal) from emp where deptno = 30;
 --47. Calcular cuantos empleados se han contratado cada año.
 --48. Calcular el sueldo máximo y mínimo de cada departamento.
+select deptno, max(sal) "Máximo salario", min(sal) "Mínmo salario" from emp group by deptno;
 --49. Calcular cuanto se gana de media por cada oficio. Redondear a 2 decimales.
+select job, round(avg(sal)) "Salario medio" from emp group by job;
 --50. Cuántos dias de vacaciones correspondieron a cada empleado el primer año de trabajo (contando 1 día por semana entera trabajada).
