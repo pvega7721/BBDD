@@ -5,9 +5,7 @@ select last_day(sysdate),'dd/mm/yyy HH24:MI:SS' "Mes contrato" from dual;
 --33. Calcular en qué MES (cifras) se ha contratado cada empleado.
 select extract(month from hiredate) from emp;
 --34. Calcular cuanto debería haber cobrado cada empleado en su primer año de trabajo (desde la fecha de contrato hasta el 31 de diciembre de ese año).
-
-
-
+select ename "Nombre",round(((to_date('3112'||to_char(hiredate,'yyyy'))-hiredate)/30),2)*sal "Cobro 1er año" from emp;
 --35. Cuantos oficios distintos hay en la tabla de empleados.
 select distinct job from emp;
 select count(distinct job) from emp;
@@ -38,8 +36,10 @@ select round(avg(sal),2) from emp where deptno = 10 or deptno = 30;
 select sum(sal) from emp where deptno = 10 union
 select sum(sal) from emp where deptno = 30;
 --47. Calcular cuantos empleados se han contratado cada año.
+SELECT extract(year from hiredate) "Año de contratación", COUNT(*) "Empleados contratados" FROM emp GROUP BY extract(year from hiredate);
 --48. Calcular el sueldo máximo y mínimo de cada departamento.
 select deptno, max(sal) "Máximo salario", min(sal) "Mínmo salario" from emp group by deptno;
 --49. Calcular cuanto se gana de media por cada oficio. Redondear a 2 decimales.
 select job, round(avg(sal)) "Salario medio" from emp group by job;
 --50. Cuántos dias de vacaciones correspondieron a cada empleado el primer año de trabajo (contando 1 día por semana entera trabajada).
+select ename "Nombre", floor((to_date('3112' || to_char(hiredate,'yyyy'))-hiredate)/7) "Días de vacaciones" from emp;
