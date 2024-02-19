@@ -1,27 +1,55 @@
 --51. Qué día de la semana se contrató a cada empleado.
+select to_char(hiredate, 'day') "Día de contratación" from emp;
 --52. Calcular la paga de beneficios que corresponde a cada empleado (3 salarios mensuales incrementados un: 10% para PRESIDENT, 20% para los MANAGER, 30% para el resto).
 --53. Cuantos días han pasado desde el 25 julio de 1992.
 --54. Seleccionar el nombre de cada empleado junto al nombre del departamento en el que está.
+select emp.ename "Nombre del empleado", dept.dname Departamento from emp join dept on emp.deptno = dept.deptno;
 --55. Seleccionar el nombre y puesto de cada empleado junto al nombre del departamento al que pertenece y la localización del departamento.
+select emp.ename "Nombre del empleado", emp.job Puesto, dept.dname "Departamento" , dept.loc "Localización" from emp join dept on emp.deptno = dept.deptno;
 --56. Seleccionar el nombre de cada empleado, el nombre de! departamento al que pertenece, y el codigo de departamento del empleado.
+select emp.ename "Nombre del empleado", dept.dname "Departamento" , dept.deptno "Código de departamento" from emp join dept on emp.deptno = dept.deptno;
 --57. Listar el nombre del empleado y el nombre de su jefe.
+select * from dept;
+select * from emp;
 --58. Listar el nombre del empleado y el nombre de su jefe. Incluir empleados que no tengan jefe.
 --59. Seleccionar nombre del empleado, nombre del jefe, fechas contrato del trabajador y del jefe, de forma que la fecha de contrato del empleado sea anterior a la de su jefe.
 --60. Seleccionar nombre del empleado, nombre del jefe, salarios del trabajador y del jefe, de forma que el sueldo del empleado sea inferior a la mitad del salario de su jefe.
 --61. Seleccionar las distintas ubicaciones de los departamentos.
+select distinct loc from dept;
 --62. Seleccionar la ubicación y el nombre empleado. Incluir también las ubicaciones de departamentos sin empleados.
+select dept.loc Localización, emp.ename Empleado from dept join emp on dept.deptno = emp.deptno;
 --63. Seleccionar el nombre de los empleados, y el departamento al que pertenecen, para los empleados que ganan menos de 1000$.
+select emp.ename Nombre, dept.deptno Departamento from emp join dept on emp.deptno = dept.deptno where emp.sal <1000 ;
 --64. Seleccionar el nombre del empleado, y el departamento al que pertenecen, para los empleados que ganan más de 1000$.
+select emp.ename Nombre, dept.deptno Departamento from emp join dept on emp.deptno = dept.deptno where emp.sal >1000 ;
 --65. Consultar todos los valores de la tabla emp.
+select * from emp;
 --66. Listar el nombre, el oficio y sueldo de los empleados.
+select ename, job, sal from emp;
 --67. Calcular el sueldo anual que percibe cada empleado.
+select ename Nombre, (sal*12) "Salario anual" from emp;
 --68. Consultar los datos de la tabla DEPTS.
+select * from dept;
 --69. Listar los diferentes puestos de los empleados sin repetir.
+select distinct job from emp;
 --70. Listar en una sola columna el nombre y el puesto de cada empleado.
+select ename || ' ' || job "Nombre y puesto" from emp;
 --71. Listar todas las columnas de la tabla EMP en una única columna, separando cada campo por comas.
+select * from emp;
+select empno || ' ' || ename || ' ' || job || ' ' || mgr || ' ' || hiredate || ' ' || sal || ' ' || comm || ' ' || deptno "Todas las columnas en una" from emp;
 --72. Listar el nombre y sueldo de los empleados que ganan más de 2000$.
+select ename, sal from emp where sal > 2000;
 --73. Listar el nombre y código de de departamento del empleado con id=30.
---74. Listar el nombre y sueldo de los empleados que NO ganan entre 5000 y 12000 dólares. Muestra el sueldo con el símbolo de $ delante de la cifra.
+select ename, deptno from emp where deptno = 30;
+
+
+
+
+--74. Listar el nombre y sueldo de los empleados que NO ganan entre 5000 y 12000 dólares. Muestra el sueldo con el símbolo de $ delante de la cifra.        PREGUNTAR A INDALECIO
+select ename, sal from emp where sal not between 5000 and 12000;
+
+
+
 --75. Listar el nombre, puesto y fecha contrato de los empleados contratados entre el 20 febrero 1981 y el 1 de mayo de 1981. Ordenar por fecha descendente.
 --76. Listar el nombre y el cod departamento de los empleados pertenecientes a los departamentos 20 o 40.
 --77. Listar el nombre (alias: Empleado) y sueldo (alias: Salario mensual) de los empleados pertenecientes a los departamentos 20 o 40, que ganen entre 2000 y 4000 dólares.
