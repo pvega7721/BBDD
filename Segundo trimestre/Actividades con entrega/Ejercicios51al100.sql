@@ -1,7 +1,13 @@
 --51. Qué día de la semana se contrató a cada empleado.
 select to_char(hiredate, 'day') "Día de contratación" from emp;
+
+
 --52. Calcular la paga de beneficios que corresponde a cada empleado (3 salarios mensuales incrementados un: 10% para PRESIDENT, 20% para los MANAGER, 30% para el resto).
+
+
 --53. Cuantos días han pasado desde el 25 julio de 1992.
+
+
 --54. Seleccionar el nombre de cada empleado junto al nombre del departamento en el que está.
 select emp.ename "Nombre del empleado", dept.dname Departamento from emp join dept on emp.deptno = dept.deptno;
 --55. Seleccionar el nombre y puesto de cada empleado junto al nombre del departamento al que pertenece y la localización del departamento.
@@ -11,9 +17,16 @@ select emp.ename "Nombre del empleado", dept.dname "Departamento" , dept.deptno 
 --57. Listar el nombre del empleado y el nombre de su jefe.
 select * from dept;
 select * from emp;
+
+
 --58. Listar el nombre del empleado y el nombre de su jefe. Incluir empleados que no tengan jefe. JEFE = MGR
 --59. Seleccionar nombre del empleado, nombre del jefe, fechas contrato del trabajador y del jefe, de forma que la fecha de contrato del empleado sea anterior a la de su jefe.
 --60. Seleccionar nombre del empleado, nombre del jefe, salarios del trabajador y del jefe, de forma que el sueldo del empleado sea inferior a la mitad del salario de su jefe.
+
+
+
+
+
 --61. Seleccionar las distintas ubicaciones de los departamentos.
 select distinct loc from dept;
 --62. Seleccionar la ubicación y el nombre empleado. Incluir también las ubicaciones de departamentos sin empleados.
@@ -41,26 +54,35 @@ select empno || ' ' || ename || ' ' || job || ' ' || mgr || ' ' || hiredate || '
 select ename, sal from emp where sal > 2000;
 --73. Listar el nombre y código de de departamento del empleado con id=30.
 select ename, deptno from emp where deptno = 30;
-
-
-
-
 --74. Listar el nombre y sueldo de los empleados que NO ganan entre 5000 y 12000 dólares. Muestra el sueldo con el símbolo de $ delante de la cifra.        PREGUNTAR A INDALECIO
 select ename, sal from emp where sal not between 5000 and 12000;
 
 
-
 --75. Listar el nombre, puesto y fecha contrato de los empleados contratados entre el 20 febrero 1981 y el 1 de mayo de 1981. Ordenar por fecha descendente.
+
+
 --76. Listar el nombre y el cod departamento de los empleados pertenecientes a los departamentos 20 o 40.
+select ename Nombre, deptno "Codigo departamento" from emp where deptno in(20,40);
 --77. Listar el nombre (alias: Empleado) y sueldo (alias: Salario mensual) de los empleados pertenecientes a los departamentos 20 o 40, que ganen entre 2000 y 4000 dólares.
---78. Listar el nombre y fecha contrato de empleados contratados el año 1984.
+select ename Nombre, sal "Salario mensual" from emp where deptno in (20,40) and sal between 2000 and 4000;
+--78. Listar el nombre y fecha contrato de empleados contratados el año 1984. NO HAY NINGUNO
+select ename Nombre, hiredate "Fecha de contratación" from emp where (extract (year from hiredate) = 1984);
 --79. Listar el nombre y el puesto de los empleados que no tengan jefe asignado.
+select ename Nombre, job Puesto from emp where mgr is null;
 --80. Listar el nombre, sueldo y % comisión de los empleados que cobran comisión. Ordenar por salario y comisión, de forma que los más altos salgan primero.
+select ename Nombre, sal Sueldo, comm Comisión from emp where (comm is not null and comm <> 0) order by sal,comm desc;
 --81. Listar el nombre de los empleados que tengan una 'a' en la 3a letra del nombre.
---82. Listar el nombre de los empleados que tengan una 'a' y una 'e' en el nombre.
+select ename from emp where substr(ename, 3,1) = 'A';
+--82. Listar el nombre de los empleados que tengan una 'a' y una 'e' en el nombre. EN ESTE CASO MEJOR LIKE. '=' COMPRUEBA QUE EL NOMBRE CONTENGA LITERALMENTE '%A%', MIENTRAS QUE LIKE COMPRUEBA QUE CONTENGA UNA 'A' EN CUALQUIER POSICIÓN.
+select ename from emp where ename like '%A%' and ename like '%E%';
 --83. Listar el nombre, puesto y sueldo de los empleados 'CLERK' o 'SALESMAN', y con salario distinto de: 2500, 3500 y 7000.
+select ename Nombre, job Puesto, sal Sueldo from emp where job in ('CLERK', 'SALESMAN') and sal not in (2500,3500,7000) order by job,sal desc;
 --84. Listar el nombre (alias: Empleado), sueldo (alias: Salario mensual) y nombre del departamento de todos los empleados cuya comisión sea mayor de 400.
+select emp.ename Empleado, emp.sal "Salario mensual", dept.dname "Nombre del departamento" from emp join dept on emp.deptno = dept.deptno where comm > 400;
+
+
 --85. Listar el nombre y salario de los empleados, de forma que estén separados por una línea de puntos, y que de extremo a extremo haya 30 caracteres (por ejemplo: "KING......................5000").
+
 --86. Listar los nombres de los empleados, reemplazando la letra 'a' por un '1'.
 --87. Obtener la fecha del sistema (hoy) con alias: Fecha en el formato por defecto (sin tocar nada).
 --88. Listar el id, nombre, salario de los empleados, y además otra columna con el salario incrementado un 15% su valor y redondeado (alias: Nuevo salario).
