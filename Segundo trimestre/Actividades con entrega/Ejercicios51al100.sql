@@ -15,18 +15,13 @@ select emp.ename "Nombre del empleado", emp.job Puesto, dept.dname "Departamento
 --56. Seleccionar el nombre de cada empleado, el nombre de! departamento al que pertenece, y el codigo de departamento del empleado.
 select emp.ename "Nombre del empleado", dept.dname "Departamento" , dept.deptno "Código de departamento" from emp join dept on emp.deptno = dept.deptno;
 --57. Listar el nombre del empleado y el nombre de su jefe.
-select * from dept;
-select * from emp;
-
-
+select emp1.ename, jefe.ename from emp emp1 join emp jefe on emp1.mgr = jefe.empno;
 --58. Listar el nombre del empleado y el nombre de su jefe. Incluir empleados que no tengan jefe. JEFE = MGR
+select emp1.ename, jefe.ename from emp emp1 left join emp jefe on emp1.mgr = jefe.empno;
 --59. Seleccionar nombre del empleado, nombre del jefe, fechas contrato del trabajador y del jefe, de forma que la fecha de contrato del empleado sea anterior a la de su jefe.
+select emp1.ename "Nombre empleado", jefe.ename "Nombre jefe", emp1.hiredate "Fecha de contrato empelado", jefe.hiredate "Fecha de contrato jefe" from emp emp1 join emp jefe on emp1.mgr = jefe.empno order by emp1.hiredate;
 --60. Seleccionar nombre del empleado, nombre del jefe, salarios del trabajador y del jefe, de forma que el sueldo del empleado sea inferior a la mitad del salario de su jefe.
-
-
-
-
-
+select emp1.ename "Nombre empleado", jefe.ename "Nombre jefe", emp1.sal "Sueldo empelado", jefe.sal "Sueldo jefe" from emp emp1 join emp jefe on emp1.mgr = jefe.empno where emp1.sal< (jefe.sal/2);
 --61. Seleccionar las distintas ubicaciones de los departamentos.
 select distinct loc from dept;
 --62. Seleccionar la ubicación y el nombre empleado. Incluir también las ubicaciones de departamentos sin empleados.
@@ -54,9 +49,8 @@ select empno || ' ' || ename || ' ' || job || ' ' || mgr || ' ' || hiredate || '
 select ename, sal from emp where sal > 2000;
 --73. Listar el nombre y código de de departamento del empleado con id=30.
 select ename, deptno from emp where deptno = 30;
---74. Listar el nombre y sueldo de los empleados que NO ganan entre 5000 y 12000 dólares. Muestra el sueldo con el símbolo de $ delante de la cifra.        PREGUNTAR A INDALECIO
-select ename, sal from emp where sal not between 5000 and 12000;
-
+--74. Listar el nombre y sueldo de los empleados que NO ganan entre 5000 y 12000 dólares. Muestra el sueldo con el símbolo de $ delante de la cifra.
+select ename Nombre, concat('$', sal) Sueldo from emp where sal not between 5000 and 12000;
 
 --75. Listar el nombre, puesto y fecha contrato de los empleados contratados entre el 20 febrero 1981 y el 1 de mayo de 1981. Ordenar por fecha descendente.
 

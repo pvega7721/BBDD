@@ -27,14 +27,22 @@ select codigo_producto Producto, sum(cantidad) "Veces que se ha pedido" from det
 --14. Muestra el nombre de los clientes de Miami que han realizado algún pedido.
 select distinct(cliente.nombre_cliente) Nombre from cliente join pedido on cliente.codigo_cliente = pedido.codigo_cliente where ciudad = 'Miami';
 --15. Mostrar el precio final de cada pedido.
-select * from pedido;
-select * from detalle_pedido;
+select (precio_unidad*cantidad) "Precio final" from detalle_pedido;
 --16. Mostrar lo que ha pagado cada cliente.
+select distinct(cliente.nombre_cliente) "Cliente", sum(pago.total) "Total pagado" from cliente join pago on cliente.codigo_cliente = pago.codigo_cliente group by cliente.nombre_cliente;
 --17. Mostrar el numero de productos de cada gama.
+select gama Gama,count(*) "Cantidad de productos" from producto group by gama;
 --18. Mostrar el codigo de los pedidos donde se haya vendido el producto de la gama ‘Aromáticas’ mas caro.
+select * from detalle_pedido;
+select * from pedido;
+select * from producto;
+
+
+
 --19. Mostrar el codigo de los pedidos donde se hayan vendido mas de 6 productos.
 --20. Mostrar el codigo de los pedidos donde el precio del pedido sea superior a la media de todos los pedidos.
 --21. Mostrar los datos de un empleado (nombre, apellidos, ciudad de la oficina) y lo mismo para su jefe (en la misma fila).
+select Empleados.nombre "Nombre empleados", Empleados.apellido1 || ' ' || Empleados.apellido2 "Apellidos", oficina.ciudad "Ciudad oficina", Jefe.nombre "Nombre Jefe", Jefe.apellido1 || ' ' || Jefe.apellido2 "Apellidos", oficina2.ciudad from empleado Empleados join empleado Jefe on Empleados.codigo_jefe = Jefe.codigo_empleado join oficina on oficina.codigo_oficina = Empleados.codigo_oficina join oficina oficina2 on Jefe.codigo_oficina = oficina2.codigo_oficina;
 --22. Mostrar el codigo de pedido y su total en euros.
 --23. Mostrar la información del pedido (codigo, fechapedido, fechaesperada, fechaentrega, nombre cliente y total en euros) ordenado por total de forma descendente.
 --24. Devolverme la gama de productos mas vendida.
