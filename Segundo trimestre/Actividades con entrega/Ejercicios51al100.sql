@@ -1,8 +1,7 @@
 --51. Qué día de la semana se contrató a cada empleado.
 select to_char(hiredate, 'day') "Día de contratación" from emp;
 --52. Calcular la paga de beneficios que corresponde a cada empleado (3 salarios mensuales incrementados un: 10% para PRESIDENT, 20% para los MANAGER, 30% para el resto).
-
-
+select ename, decode(job, 'PRESIDENT', (sal*1.1)*3 , 'MANAGER', (sal*1.2)*3, (sal*1.3)*3) "Paga de benecifios" from emp;
 --53. Cuantos días han pasado desde el 25 julio de 1992.
 select to_date(sysdate) - to_date('25-07-1992','DD-MM-YYYY') "Días pasados" from dual;
 --54. Seleccionar el nombre de cada empleado junto al nombre del departamento en el que está.
@@ -85,12 +84,20 @@ select ename Nombre, ceil(months_between(sysdate,hiredate)) "Número de meses tra
 select ename || ' gana ' || sal || ' mensuales, pero querría ganar ' || (sal*3) "Sueldos soñados" from emp;
 --93. Listar el nombre y salario de los empleados, rellenando por la izquierda hasta 15 caracteres con el símbolo "$".
 select ename Nombre, lpad(sal,15, '$') from emp;
---94. Listar nombre, fecha contrato y fecha revisión contrato de los empleados, sabiendo que la revisión será el lunes siguiente a la fecha que cumple 6 meses de trabajo en la empresa. Formatear esta fecha de acuerdo con el ejemplo: 'Lunes, 12th de noviembre de 2005'.
-
---95. Listar nombre, fecha contrato y día de la semana en que fueron contratados los empleados, ordenando por día de la semana, de forma que queden ordenados por lunes, martes, miércoles, jueves, viernes, sábado y domingo.
+--94. Listar nombre, fecha contrato y fecha revisión contrato de los empleados, sabiendo que la revisión será el lunes siguiente a la fecha que cumple 6 meses de trabajo en la empresa. Formatear esta fecha de acuerdo con el ejemplo: 
+--'Lunes, 12th de noviembre de 2005'.
+select * from emp;
+select ename Nombre, hiredate "Fecha de contrato", to_char(next_day((add_months(hiredate,6)),1),'DAY", "DDth " de " MONTH YYYY') "Fecha de revisión" from emp;
+--95. Listar nombre, fecha contrato y día de la semana en que fueron contratados los empleados, ordenando por día de la semana, de forma que queden ordenados por lunes, martes, miércoles, jueves, viernes, sábado y domingo. 
+--TO_CHAR(HIREDATE,'D') PARA ORDENAR POR DÍA DE LA SEMANA.
+select ename Nombre, hiredate "Fecha de contrato", to_char(hiredate, 'day') "Día de contrato" from emp order by to_char(hiredate,'D');
 --96. Listar nombre y comisión de los empleados. En el caso de que no gane comisión, sacar la frase "Sin comisión".
+select ename Nombre, nvl(to_char(comm), 'Sin comisión') "Comisión" from emp order by comm;
 --97. Listar nombre de los empleados, y una tira de asteriscos, de forma que haya un asterisco por cada 1000$ (redondeada) que gana el empleado. Titula la columna 'Empleado y su salario'. Ordenar esta
 --columna de forma que los que más ganan aparezcan primero. Los nombres deben quedar ajustados a la longitud del nombre más largo. Ej.: "KING..:  *****"
 --98. Listar los distintos nombres de puestos de los empleados, de forma que : PRESIDENT se traduzca por A, MANAGER por B, ANALYST por C, CLERK por D y el resto por E.
+select distinct(decode(job, 'PRESIDENT', 'A', 'MANAGER', 'B', 'ANALYST', 'C', 'CLERK', 'D', 'E')) from emp;
 --99. Listar todos los campos de la tabla DEPT.
+select * from dept;
 --100. Seleccionar el nombre de departamento, y el nombre de la ciudad donde está.
+select dname "Nombre del departamento", loc "Ciudad donde está" from dept;
