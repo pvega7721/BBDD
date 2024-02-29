@@ -32,19 +32,21 @@ select (precio_unidad*cantidad) "Precio final" from detalle_pedido;
 select distinct(cliente.nombre_cliente) "Cliente", sum(pago.total) "Total pagado" from cliente join pago on cliente.codigo_cliente = pago.codigo_cliente group by cliente.nombre_cliente;
 --17. Mostrar el numero de productos de cada gama.
 select gama Gama,count(*) "Cantidad de productos" from producto group by gama;
---18. Mostrar el codigo de los pedidos donde se haya vendido el producto de la gama ‘Aromáticas’ mas caro.
-select * from detalle_pedido;
-select * from pedido;
-select * from producto;
 
+
+--18. Mostrar el codigo de los pedidos donde se haya vendido el producto de la gama ‘Aromáticas’ mas caro.
 
 
 --19. Mostrar el codigo de los pedidos donde se hayan vendido mas de 6 productos.
+select pedido.codigo_pedido from pedido join detalle_pedido on pedido.codigo_pedido = detalle_pedido.codigo_pedido join producto on detalle_pedido.codigo_producto = producto.codigo_producto where detalle_pedido.cantidad>6;
 --20. Mostrar el codigo de los pedidos donde el precio del pedido sea superior a la media de todos los pedidos.
+select codigo_pedido from detalle_pedido where cantidad * precio_unidad > (select avg(cantidad*precio_unidad) from detalle_pedido);
 --21. Mostrar los datos de un empleado (nombre, apellidos, ciudad de la oficina) y lo mismo para su jefe (en la misma fila).
 select Empleados.nombre "Nombre empleados", Empleados.apellido1 || ' ' || Empleados.apellido2 "Apellidos", oficina.ciudad "Ciudad oficina", Jefe.nombre "Nombre Jefe", Jefe.apellido1 || ' ' || Jefe.apellido2 "Apellidos", oficina2.ciudad from empleado Empleados join empleado Jefe on Empleados.codigo_jefe = Jefe.codigo_empleado join oficina on oficina.codigo_oficina = Empleados.codigo_oficina join oficina oficina2 on Jefe.codigo_oficina = oficina2.codigo_oficina;
 --22. Mostrar el codigo de pedido y su total en euros.
+select codigo_pedido "Código del pedido", (cantidad*precio_unidad) || '€' "Precio total" from detalle_pedido;
 --23. Mostrar la información del pedido (codigo, fechapedido, fechaesperada, fechaentrega, nombre cliente y total en euros) ordenado por total de forma descendente.
+select pedido.codigo_pedido Codigo, pedido.fecha_pedido "Fecha del pedido", pedido.fecha_esperada "Fecha esperada", pedido.fecha_entrega "Fecha de entrega",cliente.nombre_cliente "Nombre del cliente" from pedido join detalle_pedido on pedido.codigo_pedido = detalle_pedido.codigo_pedido join cliente on pedido.codigo_cliente = cliente.codigo_cliente order by (detalle_pedido.cantidad*detalle_pedido.precio_unidad) desc;
 --24. Devolverme la gama de productos mas vendida.
 --25. Devolverme la gama de productos mas vendida.
 --26. Muestra el pais(cliente) donde menos pedidos se hacen.
