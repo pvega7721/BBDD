@@ -32,6 +32,7 @@ select cliente.nombre_cliente "Nombre del cliente", cliente.region Ciudad, pedid
 --15. Mostrar el precio final de cada pedido.
 select codigo_pedido "Código del pedido", sum((cantidad*precio_unidad)) || '€' "Precio final" from detalle_pedido group by codigo_pedido;
 --16. Mostrar lo que ha pagado cada cliente.
+select cliente.nombre_cliente "Nombre del cliente", sum(detalle_pedido.cantidad*detalle_pedido.precio_unidad) "Total pagado"  from cliente join pedido on cliente.codigo_cliente = pedido.codigo_cliente join detalle_pedido on pedido.codigo_pedido = detalle_pedido.codigo_pedido group by cliente.nombre_cliente;
 --17. Mostrar el numero de productos de cada gama.
 --18. Mostrar el codigo de los pedidos donde se haya vendido el producto de la gama ‘Aromáticas’ mas caro.
 --19. Mostrar el codigo de los pedidos donde se hayan vendido mas de 6 productos.
