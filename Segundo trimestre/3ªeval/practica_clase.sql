@@ -12,4 +12,3 @@ begin
     DBMS_OUTPUT.PUT_LINE(Cadena || ' ' || Numero);
     END; 
 /
-    
