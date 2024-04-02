@@ -3,30 +3,23 @@ set serveroutput on;
 --Ejercicio1
 declare 
     fecha date;
-    fecha2 date := '06/04/2021';
-    --fecha2 date := to_date('06/04/2021');
-    --fecha2 date := to_date('06/04/2021', 'dd/mm/aaaa');
+    fecha1 date := '06/04/2021';
     numero number(3);
     numero1 number(4,2) := 10.99;
     nombre1 varchar2(10) := 'CLASE DE D';
-    --nombre1 varchar2(15) := 'CLASE DE DAMDAW';
     numero2 constant number := 11;
 begin
-    numero2 := 1;
-    dbms_output.put_line('');
+    dbms_output.put_line(numero2);
 end;
 /
 --Ejercicio2
-/*declare
+declare
     variable1 emp.ename%type;
     variable2 emp%rowtype;
 begin
     --Primer caso
     select ename into variable1 from emp where empno = 7839;
     dbms_output.put_line(variable1);
-    --Segundo caso
-    select * into variable2 from emp where emp 
-    dbms_output.put_line(variable2.ename);
 end;
 /
 
@@ -41,6 +34,7 @@ begin
 end;
 /
 
+--Ejercicio 5 con funcion
 create or replace function calcularAreaTriangulo(base1 int, altura1 int) return number
 is
     area1 number :=0;
@@ -55,5 +49,26 @@ declare
 begin
     resultado := calcularAreaTriangulo(2,4);
     dbms_output.put_line('El área del triángulo es: ' || resultado);
+end;
+/
+
+--Ejercicio6
+declare
+    nombre varchar2(20) := &nombre;
+    apellido varchar2(20) := &apellido;
+begin
+    dbms_output.put_line('Hola ' || nombre || ' ' || apellido);
+end;
+/
+
+--Ejercicio7
+declare
+    num1 number := 8;
+    num2 number := 4;
+begin
+    dbms_output.put_line('Suma ' || (num1+num2));
+    dbms_output.put_line('Resta ' || (num1-num2));
+    dbms_output.put_line('Multiplicación ' || (num1*num2));
+    dbms_output.put_line('División ' || (num1/num2));
 end;
 /
