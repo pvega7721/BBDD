@@ -1,4 +1,5 @@
 set serveroutput on;
+
 --Ejercicio1
 declare 
     fecha date;
@@ -28,7 +29,7 @@ begin
     dbms_output.put_line(variable2.ename);
 end;
 /
-*/
+
 --Ejercicio 5
 declare
     base number(4,2) := &Introduce_la_base;
@@ -39,13 +40,20 @@ begin
     DBMS_OUTPUT.PUT_LINE(area);
 end;
 /
-create or replace function calcularAreaTriangulo(base int, altura int) return number
+
+create or replace function calcularAreaTriangulo(base1 int, altura1 int) return number
 is
-    base1 number(4,2) := &Introduce_la_base;
-    altura1 number(4,2) := &Introduce_la_altura;
     area1 number :=0;
 begin
     area1 := ((base1*altura1)/2);
     return area1;
+end;
+/
+
+declare
+ resultado number;
+begin
+    resultado := calcularAreaTriangulo(2,4);
+    dbms_output.put_line('El área del triángulo es: ' || resultado);
 end;
 /
