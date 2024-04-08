@@ -6,7 +6,7 @@ begin
     loop
         if i<10 then
             dbms_output.put_line(i);
-        elsif i = 10 then
+        elsif i := 10 then
             exit;
         end if;
         i:= i+1;
@@ -88,9 +88,22 @@ declare
         dname dept.deptno%type,
         loc dept.deptno%type
     );
+    departamento tDept;
 begin
-    dbms_output.put_line('');
+    select dname into departamento.dname from dept where deptno = 40;
+    select * into departamento from dept where deptno = 40;
+    dbms_output.put_line(departamento.dname);
+    dbms_output.put_line(departamento.deptno);
 end;
 /
+
+--Ejercicio2
+declare
+    type tPersona
+begin
+
+end;
+
+
 
 
