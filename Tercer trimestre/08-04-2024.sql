@@ -48,3 +48,49 @@ begin
     end loop;
 end;
 /
+--Ejercicios
+
+
+--Registros y tablas
+--Ejercicio1
+declare
+    type tPersona is record(
+        codigo number,
+        nombre varchar(100),
+        edad int
+    );
+    type tMascota is record(
+        nombre varchar(100),
+        propietario tPersona
+    );
+    persona1 tPersona;
+    persona2 tPersona;
+    mascota1 tMascota;
+begin
+    persona1.codigo := 1;
+    persona1.nombre := 'Pedro';
+    persona1.edad := 25;
+    mascota1.propietario := persona1;
+    mascota1.nombre := 'Oye tu';
+    dbms_output.put_line('Mostrar los datos de personas');
+
+    dbms_output.put_line(persona1.codigo||'|'||persona1.nombre||'|'||persona1.edad);
+    dbms_output.put_line(persona2.codigo||'|'||persona2.nombre||'|'||persona2.edad);
+    dbms_output.put_line('Mostrar los datos de mascotas');
+
+    dbms_output.put_line(mascota1.nombre||'|'||mascota1.propietario.codigo||'|'||mascota1.propietario.nombre||'|'||mascota1.propietario.edad);
+end;
+/
+--Quiero que me hagáis un registro tDept con la escritura de la tabla DEPT
+declare
+    type tDept is record(
+        deptno dept.deptno%type,
+        dname dept.deptno%type,
+        loc dept.deptno%type
+    );
+begin
+    dbms_output.put_line('');
+end;
+/
+
+
