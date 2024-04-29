@@ -1,4 +1,7 @@
 set serveroutput on;
+
+--PDF 1
+
 --Ejercicio1
 declare
     fecha date;
@@ -147,3 +150,120 @@ begin
     end case;
 end;
 /
+
+--Ejercicio12
+declare
+    golCasa integer := '&Goles_equipo_casa';
+    golVisitante integer := '&Goles_equipo_visitante';
+begin
+    dbms_output.put_line('Ejercicio 12');
+    if golCasa > golVisitante then
+        dbms_output.put_line('Ha ganado el equipo de casa');
+    elsif golCasa < golVisitante then
+        dbms_output.put_line('Ha ganado el equipo visitante');
+    else
+        dbms_output.put_line('Empate');
+    end if;
+end;
+/
+
+--Ejercicio 13
+declare
+    num integer := 0;
+begin
+    dbms_output.put_line('Ejercicio 13');
+    loop
+    dbms_output.put_line(num);
+    num := num +1;
+    exit when num =21;
+    end loop;
+end;
+/
+
+--Ejercicio 14
+declare
+    num integer := 0;
+begin
+    dbms_output.put_line('Ejercicio 14');
+    loop
+    dbms_output.put_line(num);
+    num := num +1;
+    if num = 21 then
+    exit;
+    end if;
+    end loop;
+end;
+/
+
+--Ejercicio 15
+declare
+    num integer := 0;
+begin
+    dbms_output.put_line('Ejercicio 15');
+    while num!=21 loop
+    dbms_output.put_line(num);
+    num := num +1;
+    if num = 21 then
+    exit;
+    end if;
+    end loop;
+end;
+/
+
+--Ejercicio 16
+declare
+    num integer := 0;
+begin
+    dbms_output.put_line('Ejercicio 16');
+    for i in 1..20 loop
+    dbms_output.put_line(num);
+    num := num +1;
+    if num = 21 then
+    exit;
+    end if;
+    end loop;
+end;
+/
+--Ejercicio 17
+declare
+    num integer := 21;
+begin
+    dbms_output.put_line('Ejercicio 17');
+    for i in reverse 1..20 loop
+        num := num -1;
+        dbms_output.put_line(num);
+        if num = 0 then
+            exit;
+        end if;
+    end loop;
+end;
+/
+--Ejercicio 18
+declare
+    num integer := 0;
+begin
+    dbms_output.put_line('Ejercicio 18');
+    for i in reverse 1..40 loop
+        num := num +2;
+        dbms_output.put_line(num);
+        if num = 40 then
+            exit;
+        end if;
+    end loop;
+end;
+/
+--Ejercicio 19
+declare
+    num1 integer := 0;
+    num2 integer := 0;
+begin
+    for i in 1..10 loop
+        for j in 1..10 loop
+            dbms_output.put_line(i || 'X' || j || '=' || (i*j));
+        end loop;
+    end loop;
+end;
+/
+
+--PDF 2
+
