@@ -130,8 +130,8 @@ end;
 declare
     nota integer := '&Introduce_un_número';
 begin
-    dbms_output.put_line('Ejercicio10');
-    case nota
+    dbms_output.put_line('Ejercicio11');
+    case --Despues de case no va nota
     when nota <5 then
         dbms_output.put_line('Suspenso');
     when nota <6 then
@@ -140,7 +140,7 @@ begin
         dbms_output.put_line('Bien');
     when nota <9 then
         dbms_output.put_line('Notable');
-    when nota <11 then
+    when nota <=10 then
         dbms_output.put_line('Sobresaliente');
     else
         dbms_output.put_line('Nota no válida');
