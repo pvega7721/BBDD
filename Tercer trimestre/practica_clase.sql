@@ -4,11 +4,9 @@ begin
 end;
 /
 declare
-    num int := 8;
-    num2 int := 4;
     otro integer := &Numero;
     cadena varchar(2) := '&Cadena';
 begin
-    DBMS_OUTPUT.PUT_LINE(Cadena || ' ' || Numero);
+    DBMS_OUTPUT.PUT_LINE(Cadena || ' ' || otro);
     END; 
 /
