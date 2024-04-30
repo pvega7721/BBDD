@@ -257,6 +257,7 @@ declare
     num1 integer := 0;
     num2 integer := 0;
 begin
+    dbms_output.put_line('Ejercicio19');
     for i in 1..10 loop
         for j in 1..10 loop
             dbms_output.put_line(i || 'X' || j || '=' || (i*j));
@@ -267,3 +268,47 @@ end;
 
 --PDF 2
 
+--Ejercicio 1
+declare
+    --Los regisros se crean dentro del delcare
+    type Tpersona is record (
+        codigo integer,
+        nombre varchar2(100),
+        edad integer
+    );
+    persona1 Tpersona;
+begin
+    persona1.codigo := 001;
+    persona1.nombre := 'Pablo';
+    persona1.edad := 19;
+    dbms_output.put_line('Código: ' || persona1.codigo);
+    dbms_output.put_line('Nombre: ' || persona1.nombre);
+    dbms_output.put_line('Edad: ' || persona1.edad);
+end;
+/
+
+--Ejercicio 2
+
+declare
+--2.1
+--Registro Tpersona como el del ejercicio anterior
+    type Tpersona is record (
+        codigo integer,
+        nombre varchar2(100),
+        edad integer
+    );
+--Registro alumno
+    type alumno is record(
+        nombre varchar2(100),
+        profesor1 Tpersona
+    );
+--2.2
+    alumno1 alumno;
+begin
+    profesor.codigo := 002;
+    profesor.nombre := 'José';
+    profesor.edad := 43;
+    alumno1.nombre := 'Juan';
+    alumno1.profesor := profesor1;
+end;
+/
