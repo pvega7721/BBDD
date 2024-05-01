@@ -278,6 +278,7 @@ declare
     );
     persona1 Tpersona;
 begin
+    dbms_output.put_line('Ejercicio1');
     persona1.codigo := 001;
     persona1.nombre := 'Pablo';
     persona1.edad := 19;
@@ -300,15 +301,31 @@ declare
 --Registro alumno
     type alumno is record(
         nombre varchar2(100),
-        profesor1 Tpersona
+        profesor Tpersona
     );
+     profesor1 Tpersona;
 --2.2
     alumno1 alumno;
+    alumno2 alumno;
 begin
-    profesor.codigo := 002;
-    profesor.nombre := 'José';
-    profesor.edad := 43;
+    dbms_output.put_line('Ejercicio2');
+    profesor1.codigo := 002;
+    profesor1.nombre := 'José';
+    profesor1.edad := 43;
     alumno1.nombre := 'Juan';
     alumno1.profesor := profesor1;
+    alumno2.nombre := 'Luis';
+    alumno2.profesor.codigo := 003;
+    dbms_output.put_line('Alumno1 nombre: ' || alumno1.nombre);
+    dbms_output.put_line('Profesor2 nombre: ' || alumno1.profesor.nombre);
+    dbms_output.put_line('Alumno2 nombre: ' || alumno2.nombre);
+    dbms_output.put_line('Código del profesor del alumno2: ' || alumno2.profesor.codigo);
+end;
+/
+
+declare
+    
+begin
+
 end;
 /
