@@ -323,9 +323,132 @@ begin
 end;
 /
 
+--Ejercicio 3
 declare
-    
+--registro con la misma estructura que la tabla dept
+    type tipodept is record (
+    deptno integer,
+    dname varchar2(50),
+    loc varchar2(50)
+    );
+    --Variable de tipo tipodept
+    fila tipodept;
 begin
-
+dbms_output.put_line('Ejercicio3');
+    select * into fila from dept where deptno = 10;
+    dbms_output.put_line('Departamento: ' || fila.deptno || ' Nombre: ' || fila.dname || ' Ubicación: ' || fila.loc);
 end;
 /
+
+--Ejercicio4
+declare
+--registro con deptno y dname
+    type tipodept is record (
+    deptno integer,
+    dname varchar2(50)
+    );
+    fila2 tipodept;
+begin
+    dbms_output.put_line('Ejercicio4');
+    --Insertar los datos de deptno y dname con deptno 20 en la variable fila2
+    select deptno, dname into fila2.deptno from dept where deptno =20;
+    dbms_output.put_line('Departamento: ' || fila2.deptno || ' Nombre: ' || fila2.dname);
+end;
+/
+
+--Ejercicio 5
+declare
+    --Tiene el valor de una fila completa de la tabal detp.
+    filaCompleta dept%rowtype;
+begin
+    dbms_output.put_line('Ejercicio5');
+    select * into filaCompleta from dept where deptno =30;
+    dbms_output.put_line('Departamento: ' || filaCompleta.deptno || ' Nombre: ' || filaCompleta.dname || ' Ubicación: ' || filaCompleta.loc);end;
+/
+
+--Ejercicio6
+declare
+    filaCompleta2 dept%rowtype;
+begin
+    dbms_output.put_line('Ejercicio6');
+    select * into filaCompleta2 from dept where deptno = 40;
+    dbms_output.put_line('Departamento: ' || filaCompleta2.deptno || ' Nombre: ' || filaCompleta2.dname || ' Ubicación: ' || filaCompleta2.loc);
+end;
+/
+
+--Ejercicio 7
+declare
+    --Tabla de tipo integer            esto es para poder acceder a las posiciones
+    type tNumeros is table of integer index by binary_integer;
+    --Creo una instancia de la tabla
+    tabla1 tNumeros;
+begin
+    dbms_output.put_line('Ejercicio 7');
+    for i in 1..10 loop
+    tabla1(i) := i;
+    dbms_output.put_line('Posición ' || i || ': ' || i);
+    end loop;
+end;
+/
+--Ejercicio 8
+declare
+    type persona is record(
+        nombre varchar2(50),
+        apellido1 varchar2(50),
+        apellido2 varchar2(50)
+    );
+    type personas is table of persona index by binary_integer;
+    persona1 personas;
+begin
+    dbms_output.put_line('Ejercicio 8');
+    persona1(1).nombre := 'Pablo';
+    persona1(1).apellido1 := 'Vega';
+    persona1(1).apellido2 := 'Flores';
+                            --Al imprimir algún dato de la tabla, hay que especificar también la posición.
+    dbms_output.put_line('Nombre: ' || persona1(1).nombre || 'Apellido1: ' || persona1(1).apellido1 || 'Apellido2: ' || persona1(1).apellido2);
+end;
+/
+--Ejercicio9 (Sobre el 7)
+declare
+    --Tabla de tipo integer            esto es para poder acceder a las posiciones
+    type tNumeros is table of integer index by binary_integer;
+    --Creo una instancia de la tabla
+    tabla1 tNumeros;
+begin
+    dbms_output.put_line('Ejercicio 9');
+    for i in 1..10 loop
+    tabla1(i) := i;
+    dbms_output.put_line('Posición ' || i || ': ' || i);
+    end loop;
+    dbms_output.put_line('Núumero de elementos en la tabla: ' || tabla1.count);
+    dbms_output.put_line('Primera posición: ' || tabla1.first);
+    dbms_output.put_line('Última posición: ' || tabla1.last);
+    tabla1.delete(tabla1.last);
+    dbms_output.put_line('Último elemento borrado');
+    dbms_output.put_line('Núumero de elementos en la tabla: ' || tabla1.count);
+    if tabla1.exists(10) then
+    dbms_output.put_line('El elemento 10 existe');
+    else
+    dbms_output.put_line('El elemento 10 no existe');
+    end if;
+end;
+/
+
+--Ejercicio10 FALTA POR HACER
+--7839 y 7698
+declare
+    --Pedimos al usuario dos números
+    num1 integer := &Introduce_Numero1;
+    num2 integer := &Introduce_Numero2;
+    --Creamos tabla integer
+    type tNumeros is table of integer index by binary_integer;
+    --Creamos tabla con los valores de la tabla emp
+    type tEmp is table of emp%rowtype index by binary_integer;
+begin
+    --Guardamos los números introducidos por el usuario en la tabla
+    tNumeros(1) := num1;
+    tNumeros(2) := num2;
+    --
+end;
+/
+-- FALTA POR HACER
