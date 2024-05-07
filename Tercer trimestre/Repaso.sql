@@ -434,7 +434,7 @@ begin
 end;
 /
 
---Ejercicio10 FALTA POR HACER
+--Ejercicio10
 --7839 y 7698
 declare
     --Pedimos al usuario dos números
@@ -444,11 +444,96 @@ declare
     type tNumeros is table of integer index by binary_integer;
     --Creamos tabla con los valores de la tabla emp
     type tEmp is table of emp%rowtype index by binary_integer;
+    --Creamos vairables para guardar los datos de las tablas
+    numeros tNumeros;
+    emp_result tEmp;
 begin
-    --Guardamos los números introducidos por el usuario en la tabla
-    tNumeros(1) := num1;
-    tNumeros(2) := num2;
-    --
+    --Guardamos los números introducidos por el usuario en las variables de la tabla
+    numeros(1) := num1;
+    numeros(2) := num2;
+    --recorremos la tabla para guardar los registros en las variables
+    for i in 1 ..numeros.count loop
+        for emp1 in (select * from emp where empno = numeros(i)) loop
+            emp_result(emp1.empno) := emp1;
+        end loop;
+    end loop;
+    --Mostrar los resultados
+    for i in 1..emp_result.count loop
+        DBMS_OUTPUT.PUT_LINE('EMPNO: ' || emp_result(i).empno);
+        DBMS_OUTPUT.PUT_LINE('ENAME: ' || emp_result(i).ename);
+        DBMS_OUTPUT.PUT_LINE('JOB: ' || emp_result(i).job);
+        DBMS_OUTPUT.PUT_LINE('MGR: ' || emp_result(i).mgr);
+        DBMS_OUTPUT.PUT_LINE('HIREDATE: ' || emp_result(i).hiredate);
+        DBMS_OUTPUT.PUT_LINE('SAL: ' || emp_result(i).sal);
+        DBMS_OUTPUT.PUT_LINE('COMM: ' || emp_result(i).comm);
+        DBMS_OUTPUT.PUT_LINE('DEPTNO: ' || emp_result(i).deptno);
+    end loop;
 end;
 /
--- FALTA POR HACER
+
+--PDF 3
+
+-- Ejercicio1
+declare
+    datosEstudiante estudiantes%rowtype;
+begin
+    dbms_output.put_line('Ejercicio1');
+    select * into datosEstudiante from estudiantes where dni = '75812952P';
+    dbms_output.put_line('Nombre y apellidos del estudiante: ' || datosEstudiante.nombre || ' ' || datosEstudiante.apellidos);
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('No hay datos');
+end;
+/
+--Ejercicio2
+declare 
+    datosEstudiante estudiantes%rowtype;  
+begin
+    dbms_output.put_line('Ejercicio2');
+    select * into datosEstudiante from estudiantes where nombre = 'Blanca';
+    dbms_output.put_line('DNI= ' || datosEstudiante.dni || ' Apellidos: ' || datosEstudiante.apellidos);
+
+exception
+    when others then
+        dbms_output.put_line('Error');     
+end;
+/
+--Ejercicio 3
+declare
+    cursor datos is select nombre, apellidos, dni from estudiantes;
+    vNombre estudiantes.nombre%type;
+    vApellidos estudiantes.Apellidos%type;
+    vdni estudiantes.dni%type;
+begin
+    dbms_output.put_line('Ejercicio3');
+    open datos;
+    fetch datos into vNombre, vApellidos, vdni;
+    dbms_output.put_line('Fila 1 - Nombre: ' || vNombre || ', Apellidos: ' || vApellidos || ', DNI: ' || vdni);
+    fetch datos into vNombre, vApellidos, vdni;
+    dbms_output.put_line('Fila 2 - Nombre: ' || vNombre || ', Apellidos: ' || vApellidos || ', DNI: ' || vdni);
+    close datos;
+
+end;
+/
+--Ejercicio4
+declare
+    cursor datos is select distinct nombre, apellidos, dni from estudiantes;
+    vNombre estudiantes.nombre%type;
+    vApellidos estudiantes.Apellidos%type;
+    vdni estudiantes.dni%type;
+    nFilas integer :=0;
+begin
+    dbms_output.put_line('Ejercicio4');
+    open datos;
+        loop
+            fetch datos into vNombre, vApellidos, vdni;
+            dbms_output.put_line('Nombre: ' || vNombre || ', Apellidos: ' || vApellidos || ', DNI: ' || vdni);
+            nFilas := nFilas+1;
+            exit when datos%notfound;
+        end loop;
+    close datos;
+    dbms_output.put_line('Filas totales: ' || nFilas);
+end;
+/
+
+select * from estudiantes;
