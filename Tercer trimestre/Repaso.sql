@@ -535,5 +535,45 @@ begin
     dbms_output.put_line('Filas totales: ' || nFilas);
 end;
 /
+--Ejercicio5
+declare
+    cursor nombreFecha is select nombre,fecha_nacimiento from estudiantes;
+    vNombre estudiantes.nombre%type;
+    vFechaNacimiento estudiantes.fecha_nacimiento%type;
+    nFilas integer :=0;
+begin
+    dbms_output.put_line('Ejercicio5');
+    open nombreFecha;
+        fetch nombreFecha into vNombre, vFechaNacimiento;
+        while nombreFecha%found loop
+            fetch nombreFecha into vNombre, vFechaNacimiento;
+            dbms_output.put_line('Nombre: ' || vNombre || ', Fecha de nacimiento: ' || vFechaNacimiento);
+            nFilas := nFilas +1;
+        end loop;
+    close nombreFecha;
+    dbms_output.put_line('Total filas; ' || nFilas);
+end;
+/
+--Ejercicio6
+declare
+    cursor datosEstudiantes is select nombre, apellidos, fecha_nacimiento from estudiantes;
+    nFilas integer := 0;
+begin
+    dbms_output.put_line('Ejercicio6');
+    for i in datosEstudiantes loop
+        dbms_output.put_line('Nombre: ' || i.nombre || ', Apellidos: ' || i.apellidos ||', Fecha de nacimiento: ' || i.fecha_nacimiento);
+        nFilas := nFilas +1;
+    end loop;
+    dbms_output.put_line('Total filas; ' || nFilas);
+end;
+/
+--Ejercicio7
+declare
+    
+begin
+
+end;
+/
+
 
 select * from estudiantes;
