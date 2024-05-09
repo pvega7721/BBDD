@@ -569,11 +569,22 @@ end;
 /
 --Ejercicio7
 declare
+    cursor datosEstudiantes is select apellidos, nombre from estudiantes;
+    vNombre estudiantes.nombre%type;
+    vApellidos estudiantes.apellidos%type;
     
 begin
-
+    vNombre := '&Nombre';
+    dbms_output.put_line('Ejercicio7');
+    open datosEstudiantes;
+        fetch datosEstudiantes into vNombre, vApellidos;
+        while datosEstudiantes%found loop
+            dbms_output.put_line(upper(vApellidos) || ' ' ||  upper(vNombre));
+            fetch datosEstudiantes into vApellidos, vNombre;
+        end loop;
+    close datosEstudiantes;
+exception
+    when no_data_found then
+        dbms_output.put_line('No hay datos');
 end;
 /
-
-
-select * from estudiantes;
