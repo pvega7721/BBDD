@@ -578,7 +578,7 @@ begin
     open datosEstudiantes;
         fetch datosEstudiantes into vNombre, vApellidos;
         while datosEstudiantes%found loop
-            dbms_output.put_line(upper(vApellidos) || ' ' ||  upper(vNombre));
+            dbms_output.put_line(upper(vApellidos) || ', ' ||  upper(vNombre));
             fetch datosEstudiantes into vApellidos, vNombre;
         end loop;
     close datosEstudiantes;
@@ -587,3 +587,21 @@ exception
         dbms_output.put_line('No hay datos');
 end;
 /
+--Ejercicio8
+declare
+    cursor datosEstudiantes is select apellidos, nombre from estudiantes;
+    vNombre estudiantes.nombre%type;
+    vApellidos estudiantes.apellidos%type;
+begin
+    vNombre := '&Nombre';
+    for i in datosEstudiantes loop
+    dbms_output.put_line(upper(vApellidos,);
+    end loop;
+end;
+/
+/*
+ for i in datosEstudiantes loop
+        dbms_output.put_line('Nombre: ' || i.nombre || ', Apellidos: ' || i.apellidos ||', Fecha de nacimiento: ' || i.fecha_nacimiento);
+        nFilas := nFilas +1;
+    end loop;
+    */
