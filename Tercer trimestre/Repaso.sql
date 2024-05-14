@@ -1,6 +1,6 @@
 set serveroutput on;
 
---PDF 1
+--PDF 1, construcción de guiones
 
 --Ejercicio1
 declare
@@ -266,7 +266,7 @@ begin
 end;
 /
 
---PDF 2
+--PDF 2, Registros y Tablas
 
 --Ejercicio 1
 declare
@@ -471,7 +471,7 @@ begin
 end;
 /
 
---PDF 3
+--PDF 3, Cursores
 
 -- Ejercicio1
 declare
@@ -589,19 +589,294 @@ end;
 /
 --Ejercicio8
 declare
-    cursor datosEstudiantes is select apellidos, nombre from estudiantes;
     vNombre estudiantes.nombre%type;
     vApellidos estudiantes.apellidos%type;
+    cursor datosEstudiantes is select apellidos, nombre from estudiantes where nombre = vNombre;
 begin
     vNombre := '&Nombre';
-    for i in datosEstudiantes loop
-    dbms_output.put_line(upper(vApellidos,);
+    for estudante in datosEstudiantes loop
+        dbms_output.put_line(upper(estudante.apellidos) || ', ' ||  upper(estudante.nombre));
     end loop;
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('No hay datos');
 end;
 /
+--PDF 4 Excepciones
 /*
- for i in datosEstudiantes loop
-        dbms_output.put_line('Nombre: ' || i.nombre || ', Apellidos: ' || i.apellidos ||', Fecha de nacimiento: ' || i.fecha_nacimiento);
-        nFilas := nFilas +1;
-    end loop;
-    */
+Ejemplo
+declare
+    --Declaraciones
+Begin
+    --Ejecucion
+Exception
+    when NO_DATA_FOUND then -- se ejecuta si ocurre la excepción NO_DATA_FOUND
+    when ZERO_DIVIDE then -- se ejecuta si ocurre la excepción ZERO_DIVIDE
+    when OTHERS then -- see ejecuta si ocurre una excepción de un tipo no tratado en los anteriores
+end;
+
+DECLARE
+    x NUMBER :=0;
+    y NUMBER := 3;
+    res NUMBER;
+BEGIN
+    res:=y/x;
+    DBMS_OUTPUT.PUT_LINE(res);
+EXCEPTION
+    WHEN ZERO_DIVIDE THEN
+        DBMS_OUTPUT.PUT_LINE('No se puede dividir por cero') ;
+    WHEN OTHERS THEN
+    --SQLCODE devuelve el código del error producido
+    --SQLERRM devuelve el mensaje de oracle asociado al número de error
+        DBMS_OUTPUT.PUT_LINE('Ocurrió el error' || SQLCODE ||' mensaje ' || SQLERRM) ;
+END;
+*/
+
+--Ejercicio1
+declare
+    num1 number := &num1;
+    num2 number := 0;
+    division number;
+begin
+    division := num1/num2;
+    dbms_output.put_line('El resto es: ' || division);
+exception
+    when others then
+        dbms_output.put_line('Ocurrió el error' || SQLCODE || ' mensaje: ' || SQLERRM);
+end;
+/
+--Ejercicio2
+declare
+    nAlumnos number;
+    no_alumnos exception;
+begin
+    select count(*) into nAlumnos from estudiantes;
+    if nAlumnos = 0 then
+        raise no_alumnos;
+    end if;
+    dbms_output.put_line('Hay ' || nAlumnos || ' alumnos');
+exception
+    when no_alumnos then 
+        dbms_output.put_line('No hay alumnos');
+end;
+/
+--Ejercicio3
+declare
+    nAlumnos number;
+    no_alumnos exception;
+    muchos_alumnos exception;
+begin
+    select count(*) into nAlumnos from estudiantes;
+    if nAlumnos = 0 then
+        raise no_alumnos;
+    elsif nAlumnos >= 5 then
+        raise muchos_alumnos;
+    end if;
+    dbms_output.put_line('Hay ' || nAlumnos || ' alumnos');
+exception
+    when no_alumnos then 
+        dbms_output.put_line('No hay alumnos');
+    when muchos_alumnos then 
+        dbms_output.put_line('Hay demasiados alumnos');
+end;
+/
+
+--PDF5 Procedimientos y funciones
+--Ejercicio1
+create or replace procedure consultarEmpleado(
+    v_empno in emp.empno%type, --Parámetro de entrada con el número del empleado 
+    v_ename out emp.ename%type, --Parámetro de salida con el nombre del empleado 
+    v_job out emp.job%type --Parámetro de salida con el puesto del empleado 
+    )
+is
+begin
+    select ename, job into v_ename, v_job from emp where empno = v_empno;
+    dbms_output.put_line('El puesto del empleado ' || v_ename || ' es ' || v_job );
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('NO se han encontrado datos');
+end;
+/
+--Ejercicio2
+declare
+--Hay que decalrar las variables que les vamos a pasar al procedimento, tanto las de entrada como las de salida.
+    id number := 7839;
+    nombre varchar2(50);
+    puesto varchar2(50);
+begin
+    consultarEmpleado(id, nombre, puesto);
+end;
+/
+
+--Ejercicio3
+drop procedure consultarEmpleado;
+
+--Ejercicio4y5
+create or replace procedure is_today(
+    --Variable donde guardaremos la fecha actual para pasarsela por parámetro al procedimiento
+    fechaHoy out date
+)
+is
+begin
+    --Guarda la fecha de hoy (sysdate) en la variable fechaHoy, creada anteriormente.
+    select sysdate into fechaHoy from dual;
+    dbms_output.put_line('Hoy es ' || fechaHoy);
+end;
+/
+
+declare 
+    fecha date;
+begin
+    is_today(fecha);
+end;
+/
+
+--Ejercicio6 
+create or replace function nombreEstudiante (e_codigo in number) return varchar
+is
+    --Variable que guarda el resultado
+    v_resultado varchar2(100);
+    e_nombre varchar2(50);
+    e_apellidos varchar2(50);
+begin
+    --Insertamos los nombres y a pellidos de los estudiantes en las variables 
+    select nombre, apellidos into e_nombre, e_apellidos from estudiantes where  codigo = e_codigo;
+    v_resultado := 'Nombre: ' || e_nombre || ', apellidos: ' || e_apellidos;
+    return v_resultado;
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('Código incorrecto');
+end;
+/
+declare
+    --Variable a pasarle a la funcion
+    e_codigo number := &Introduce_codigo_alumno;
+    --Variable que guarda lo que devuelva la funcion
+    e_nombreYApellidos varchar2(100);
+begin
+--Guardamos el resultado de la funcion en la variable y la imprimimos
+    e_nombreYApellidos := nombreEstudiante(e_codigo);
+    dbms_output.put_line(e_nombreYApellidos);
+end;
+/
+
+--Ejercicio7
+create or replace function totalEstudiantes return number
+is
+    --variable que guardará el numero de estudiantes;
+    nEstudiantes number;
+begin
+    --insertamos el numero de estudiantes en la variable y la devolvemos
+    select count(*) into nEstudiantes from estudiantes;
+    return nEstudiantes;
+end;
+/
+declare
+    --variable donde se guardará el resultado de la funcion
+    nEstudiantes number;
+begin
+    nEstudiantes := totalEstudiantes;
+    dbms_output.put_line('EN la tabla hay ' || nEstudiantes || ' estudiantes');
+end;
+/
+--PDF6 Paquetes
+--Ejercicio1
+--Creamos la cabecera del paquete, declarando todas las funciones 
+Create or replace package operaciones
+is 
+    --Funcion que suma dos numeros dados
+    function sumar (num1 in number, num2 in number) return number;
+    --Funcion que resta dos numeros dados
+    function restar (num1 in number, num2 in number) return number;
+    --Funcion que devuelve si un número es positivo o no.
+    function positivo (num in number) return boolean;
+end operaciones;
+/
+--Creamos el cuerpo del paquete, donde se implementarán las funciones
+create or replace package body operaciones
+is
+    --Implementacion de la funcion sumar
+    function sumar (num1 in number, num2 in number) return number
+    is
+    begin
+        return num1+num2;
+    end sumar;
+    --Implementacion de la funcion restar
+    function restar (num1 in number, num2 in number) return number
+    is
+    begin
+        return num1-num2;
+    end restar;
+    --Implementación de la funcion positivo
+    function positivo (num in number) return boolean
+    is
+    begin
+        if num>0 then
+            return true;
+        else  
+        return false;
+        end if;
+    end positivo;
+end operaciones;
+/
+--Ahora crearemos un bloque para probarlo.
+declare 
+    resultado_suma number;
+    resultado_resta number;
+    num_positivo boolean;
+begin
+    resultado_suma := operaciones.sumar(3, 4);
+        dbms_output.put_line('El resultado de la operación es ' || resultado_suma);
+    resultado_resta := operaciones.restar(7, 4);
+        dbms_output.put_line('El resultado de la operación es ' || resultado_resta);
+    num_positivo := operaciones.positivo(4);
+        if num_positivo then
+            dbms_output.put_line('El número es positivo');
+        else
+            dbms_output.put_line('El número es negativo');
+        end if;
+end;
+/
+
+--Ejercicio2
+--Creamos la cabecera del paquete, declarando los procedimientos/funciones
+Create or replace package gestionEMP
+is 
+    procedure nuevoEmpleado(
+    vEmpno in emp.empno%type,
+    vEname in emp.ename%type,
+    vJob in emp.job%type,
+    vMgr in emp.mgr%type,
+    vHiredate in emp.hiredate%type,
+    vSal in emp.sal%type,
+    vComm in emp.comm%type,
+    vDeptno in emp.deptno%type
+    );
+end gestionEMP;
+/
+create or replace package body gestionEMP
+is
+   procedure nuevoEmpleado(
+    vEmpno in emp.empno%type,
+    vEname in emp.ename%type,
+    vJob in emp.job%type,
+    vMgr in emp.mgr%type,
+    vHiredate in emp.hiredate%type,
+    vSal in emp.sal%type,
+    vComm in emp.comm%type,
+    vDeptno in emp.deptno%type
+    ) 
+    is
+    
+    begin
+        insert into emp values (vEmpno, vEname, vJob, vMgr, vHiredate, vSal, vComm, vDeptno);
+        dbms_output.put_line('Registro insertado correctamente');
+    end nuevoEmpleado;
+end;
+/
+--Creo un bloque para llamar al paquete anterior
+declare
+begin
+    gestionEMP.nuevoEmpleado(8000, 'JUAN', 'CLERK', 7902, TO_DATE('01/05/22', 'DD/MM/YY'), 1500, NULL, 20);
+end;
+/
