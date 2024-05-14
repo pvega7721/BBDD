@@ -45,3 +45,98 @@ begin
     end loop;
 end;
 /
+
+--Ejercicio4
+declare 
+    mesIntroducido number := '&Introduce_el_mes';
+    nEmp emp.ename%type;
+begin
+    --Recorre todos los empleados que han sido contratados en ese mes y los muestra
+    for emp_rec in (select ename into nEmp from emp where extract(month from hiredate) = mesIntroducido) loop
+        dbms_output.put_line('El empeado es: ' || emp_rec.ename);
+    end loop;
+   
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('No hay empleados contratados ese mes');
+end;
+/
+--Ejercicio5
+declare
+    vEmpno emp.empno%type := &empno;
+    vEname emp.ename%type := '&ename';
+    vJob emp.job%type := '&puesto';
+    vMgr emp.mgr%type := &mgr;
+    vHiredate emp.hiredate%type := TO_DATE('&hiredate', 'DD/MM/YY');
+    vSal emp.sal%type := &salario;
+    vComm emp.comm%type := &comision;
+    vDeptno emp.deptno%type := &deptno;
+begin
+    insert into emp values (vEmpno, vEname, vJob, vMgr, vHiredate, vSal, vComm, vDeptno);
+        dbms_output.put_line('Registro insertado correctamente');
+end;
+/
+--Ejercicio6
+declare
+    empBorrar emp.empno%type := &empnoABorrar;
+    existeEmpleado number;
+begin
+    select count(*) into existeEmpleado from emp where empno = empBorrar;
+    if existeEmpleado >0 then
+        delete from emp where empno = empBorrar;
+        dbms_output.put_line('Empleado eliminado');
+    else
+        raise NO_DATA_FOUND;
+    end if;
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('El empleado solicitado no existe');
+end;
+/
+--Ejercicio7
+declare 
+    mesIntroducido varchar2(20) := '&Introduce_el_mes';
+    mesConsulta number;
+    nEmp emp.ename%type;
+begin
+    case mesIntroducido
+        when 'enero' then mesConsulta := 1;
+        when 'febrero' then mesConsulta := 2;
+        when 'marzo' then mesConsulta := 3;
+        when 'abril' then mesConsulta := 4;
+        when 'mayo' then mesConsulta := 5;
+        when 'junio' then mesConsulta := 6;
+        when 'julio' then mesConsulta := 7;
+        when 'agosto' then mesConsulta := 8;
+        when 'septiembre' then mesConsulta := 9;
+        when 'octubre' then mesConsulta := 10;
+        when 'noviembre' then mesConsulta := 11;
+        when 'diciembre' then mesConsulta := 12;
+        else mesIntroducido := null;
+    end case;
+    --Recorre todos los empleados que han sido contratados en ese mes y los muestra
+    for emp_rec in (select ename into nEmp from emp where extract(month from hiredate) = mesConsulta) loop
+        dbms_output.put_line('El empeado es: ' || emp_rec.ename);
+    end loop;
+   
+exception
+    when NO_DATA_FOUND then
+        dbms_output.put_line('No hay empleados contratados ese mes');
+end;
+/
+--Ejercicio8
+declare
+    vdeptno emp.deptno%type := &deptno;
+    nEmpleados number;
+    existeEmpleado number;
+begin
+    select count(*) into existeEmpleado from emp where deptno = vdeptno;
+    if existeEmpleado > 0 then
+        dbms_output.put_line('El empleado existe');
+        select count(*) into nEmpleados from emp where deptno = vdeptno;
+        dbms_output.put_line('En el departamento ' || vdeptno || ' hay ' || nEmpleados || ' empleados');
+    else
+        dbms_output.put_line('El empleado solicitado no existe');
+    end if;
+end;
+/
