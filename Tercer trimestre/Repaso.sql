@@ -569,10 +569,9 @@ end;
 /
 --Ejercicio7
 declare
-    cursor datosEstudiantes is select apellidos, nombre from estudiantes;
     vNombre estudiantes.nombre%type;
     vApellidos estudiantes.apellidos%type;
-    
+    cursor datosEstudiantes is select apellidos, nombre from estudiantes where nombre = vNombre;
 begin
     vNombre := '&Nombre';
     dbms_output.put_line('Ejercicio7');
