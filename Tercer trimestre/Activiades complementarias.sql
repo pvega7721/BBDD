@@ -140,3 +140,10 @@ begin
     end if;
 end;
 /
+--Ejercicio9
+declare 
+
+begin
+
+end;
+/
